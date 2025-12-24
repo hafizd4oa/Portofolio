@@ -1,10 +1,14 @@
 const express = require("express");
 const nodemailer = require("nodemailer");
 const cors = require("cors");
+const path = require("path");
 const app = express();
 
 app.use(cors());
 app.use(express.json());
+
+// Serve static files from the current directory
+app.use(express.static(path.join(__dirname)));
 
 app.post("/send-email", async (req, res) => {
   const { name, email, subject, message } = req.body;
@@ -32,4 +36,5 @@ app.post("/send-email", async (req, res) => {
   }
 });
 
-app.listen(5000, () => console.log("Server running on port 5000"));
+app.listen(5500, "0.0.0.0", () => console.log("Server running on port 5500"));
+~

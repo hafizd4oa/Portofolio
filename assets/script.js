@@ -68,3 +68,26 @@ const observer = new IntersectionObserver(
 document.querySelectorAll("#skills").forEach((section) => {
   observer.observe(section);
 });
+
+// Function to manage download queue
+const downloadQueue = [];
+
+function addToDownloadQueue(filePath) {
+  downloadQueue.push(filePath);
+  processDownloadQueue();
+}
+
+function processDownloadQueue() {
+  if (downloadQueue.length === 0) return;
+
+  const fileToDownload = downloadQueue.shift();
+  const link = document.createElement("a");
+  link.href = fileToDownload;
+  link.download = fileToDownload.split("/").pop();
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+
+  // Process the next file in the queue after a short delay
+  setTimeout(processDownloadQueue, 1000);
+}
